@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @Entity
 @JsonPropertyOrder({"studentName","age","dob","marks"}) // Used to get attributes in given order
-public class Student extends RepresentationModel<Student>{
+public class Student extends RepresentationModel<Student>{ // Extending with RepresentationModel for implementing haetos
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

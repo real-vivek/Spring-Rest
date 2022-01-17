@@ -1,11 +1,8 @@
 package com.springrest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,19 +30,16 @@ public class StudentController {
 	}
 
 	@PostMapping
-	public ResponseEntity<EntityModel<Student>> saveStudent(@RequestBody Student student)
-			throws JsonProcessingException {
+	public Student saveStudent(@RequestBody Student student) throws JsonProcessingException {
 		String studentStr = objectMapper.writeValueAsString(student); // Used to convert object to String
 		Student std = objectMapper.readValue(studentStr, Student.class); // Used to convert String to object
 		System.out.println("Value of Student in json: " + studentStr);
-		System.out.println("Value of Student bean from String: " + std);
-		System.out.println("" + std);
+		System.out.println("Value of Student bean in object form: " + std);
 		Student savedStudent = studentDAO.save(student);
-		EntityModel<Student> entityModel = EntityModel.of(savedStudent);
 		Link selfRelLink = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getStudent(savedStudent.getStudentId()))
 				.withSelfRel();
-		entityModel.add(selfRelLink);
-		return new ResponseEntity<EntityModel<Student>>(entityModel, HttpStatus.CREATED);
+		savedStudent.add(selfRelLink);
+		return savedStudent;
 	}
 }
