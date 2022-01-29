@@ -15,6 +15,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springrest.dao.StudentDAO;
 import com.springrest.model.Student;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/student")
 public class StudentController {
@@ -25,6 +30,15 @@ public class StudentController {
 	private StudentDAO studentDAO;
 
 	@GetMapping("{id}")
+	@Operation(summary = "Used to get info of Student with given id")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200",
+					description = "Fetched Student with given id",
+					content = {@Content(mediaType = "application/json")}),
+			@ApiResponse(responseCode = "404",
+					description = "Student not found",
+					content = @Content)
+	})
 	public Student getStudent(@PathVariable Long id) {
 		return studentDAO.findById(id).get();
 	}

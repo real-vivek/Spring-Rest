@@ -52,6 +52,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!--Just adding this dependency will add documentation to our api we can see it using: http://localhost:8084/swagger-ui.html  -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.5</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

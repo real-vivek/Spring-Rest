@@ -16,26 +16,31 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @Entity
-@JsonPropertyOrder({"studentName","age","dob","marks"}) // Used to get attributes in given order
-public class Student extends RepresentationModel<Student>{ // Extending with RepresentationModel for implementing haetos
+@JsonPropertyOrder({ "studentName", "age", "dob", "marks"}) // Used to get attributes in given order
+@Schema(description = "Model class to hold Student Object")
+public class Student extends RepresentationModel<Student> { // Extending with RepresentationModel for implementing haetos
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JsonIgnore  // Used to ignore this property
+	@JsonIgnore // Used to ignore this property
 	private Long studentId; // Remember to keep this value as numerical not String if we are using @GeneratedValue
-	
+
 	@Column(name = "name")
 	private String studentName;
-	
+
+	// @Schema used instead of @ApiModelProperty
+	@Schema(description = "Attribute used to store age of student", maximum = "65")
 	private Integer age;
-	
+
 	// If we use TemporalType.TIME time will be in HH:mm format
 	// If we use TemporalType.TIMESTAMP format will be yyyy-MM-dd HH:mm
 	@Temporal(TemporalType.DATE) // Used to set date in yyyy-MM-dd format. Change value accordingly in data.sql
 	@JsonProperty
 	private Date dob;
-	
+
 	private Integer marks;
 
 	public Long getStudentId() {
@@ -132,5 +137,5 @@ public class Student extends RepresentationModel<Student>{ // Extending with Rep
 			return false;
 		return true;
 	}
-	
+
 }
